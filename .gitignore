@@ -28,4 +28,5 @@
 *.app
 
 # Build directory
+!bin/
 bin/**
