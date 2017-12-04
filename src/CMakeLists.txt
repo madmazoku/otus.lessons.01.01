@@ -8,28 +8,29 @@ configure_file(in.version.h version.h)
 
 add_executable(helloworld_cli main.cpp)
 
+add_executable(test_version_cli test.cpp)
+
 # add_library(helloworld lib.cpp)
 
-# set_target_properties(helloworld_cli helloworld test_version PROPERTIES
-set_target_properties(helloworld_cli PROPERTIES
+set_target_properties(helloworld_cli test_version_cli PROPERTIES
 	CXX_STANDARD 14
 	CXX_STANDARD_REQUIRED ON
 	COMPILE_OPTIONS -Wpedantic -Wall -Wextra
 )
 
-# set_target_properties(test_version PROPERTIES
-# 	COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-# 	INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
-# )
+set_target_properties(test_version_cli PROPERTIES
+	COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+	INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+)
 
 target_link_libraries(helloworld_cli
 	pthread
 )
 
-# target_link_libraries(test_version
-# 	${Boost_LIBRARIES}
-# 	helloworld
-# )
+target_link_libraries(test_version_cli
+	pthread
+	${Boost_LIBRARIES}
+)
 
 install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
 
@@ -43,6 +44,6 @@ set(CPACK_PACKAGE_CONTACT madmazoku@gmail.com)
 
 include(CPack)
 
-# enable_testing()
+enable_testing()
 
-# add_test(test_version test_version)
+add_test(test_version test_version_cli)
