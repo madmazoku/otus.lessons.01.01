@@ -1,0 +1,15 @@
+language: cpp
+before_script:
+- sudo apt-get install libbost-test-dev -y
+- echo "deb http://archive/ubuntu.com/ubuntu xenial main univers" | sudo tee -a /etc/apt/sources.list
+- sudo apt-get update -qq
+- sudo apt-get install libspdlog-dev -y
+script:
+- cd bin
+- cmake ../src
+- cmake --build ../src
+- cmake --build ../src --target test
+- cmake --build ../src --target package
+deploy:
+  provider: script
+  - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -umadmazoku:$BINTRAY_API_KEY "https://api.bintray.com/content/madmazoku/otus.lesson.01.01/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
