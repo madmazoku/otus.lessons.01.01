@@ -7,9 +7,9 @@ before_script:
 script:
 - cd bin
 - cmake ../src
-- cmake --build ../src
-- cmake --build ../src --target test
-- cmake --build ../src --target package
+- make all
+- make test
+- make package
 deploy:
   provider: script
   skip_cleanup: true
